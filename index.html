@@ -116,8 +116,9 @@ body{
 
 <div id="mario" style="image-rendering: pixelated;background:url('static/front3_stop.gif');background-position:center center;background-size:100%;background-repeat:no-repeat;width:180px;height:152px;position:fixed;z-index:2;margin-left:-90px;left:50%;top:50%;margin-top:-76px;"></div>
 
-<div id="btn_up" style="position:fixed;z-index:2;left:0;top:0;height:50%;width:100%;"></div>
-<div id="btn_down" style="position:fixed;z-index:2;left:0;top:50%;height:50%;width:100%;"></div>
+<div id="btn_up" style="position:fixed;z-index:2;left:0;top:0;height:33%;width:100%;"></div>
+<div id="btn_stop" style="position:fixed;z-index:2;left:0;top:33%;height:33%;width:100%;"></div>
+<div id="btn_down" style="position:fixed;z-index:2;left:0;top:66%;height:33%;width:100%;"></div>
 
 <audio id="music" loop>
     <source src="static/music.mp3" type="audio/mp3">
@@ -138,7 +139,6 @@ var screen = 1;
 var move;
 var timer;
 var mario;
-var music_playing = false;
 
 
 
@@ -146,35 +146,36 @@ $('#bg').css('background-image', "url('static/" + screen + "_.png')");
 
 function updateMove(){
 
+    $('#music')[0].play();
 
-        if( move == 'up' ){
-            screen++;
+    if( move == 'up' ){
+        screen++;
 
-            if( screen == 6 ){
-                screen = 1;
-            }
-
-
-            
-            mario = 'back2';
-            
-            $('#mario').css('background-image', "url('static/" + mario + ".gif')").css('width',150).css('margin-left',-75);
-        }else if( move == 'down' ){
-            screen--;
-
-            if( screen == 0 ){
-                screen = 5;
-            }
-
-            
-            mario = 'front3';
-            $('#mario').css('background-image', "url('static/" + mario + ".gif')").css('width',180).css('margin-left',-90);
-            
+        if( screen == 6 ){
+            screen = 1;
         }
 
 
-        $('#bg').css('background-image', "url('static/" + screen + "_.png')");
         
+        mario = 'back2';
+        
+        $('#mario').css('background-image', "url('static/" + mario + ".gif')").css('width',150).css('margin-left',-75);
+    }else if( move == 'down' ){
+        screen--;
+
+        if( screen == 0 ){
+            screen = 5;
+        }
+
+        
+        mario = 'front3';
+        $('#mario').css('background-image', "url('static/" + mario + ".gif')").css('width',180).css('margin-left',-90);
+        
+    }
+
+
+    $('#bg').css('background-image', "url('static/" + screen + "_.png')");
+    
 
 }
 
@@ -185,18 +186,20 @@ $("body").keydown(function (e) {
     if (e.keyCode == 38) {
         move = 'up';
         updateMove();
-        $('#sound_steps')[0].play();
+        $('#music')[0].play();
 
     } else if (e.keyCode == 40) {
         move = 'down';
         updateMove();
-        $('#sound_steps')[0].play();
+        $('#music')[0].play();
     }
 
 
 });
 
-$("body").keyup(function (e) {
+function stopMario(){
+    clearInterval(timer);
+
     if( move == 'up' ){
         mario = 'back_stop';
 
@@ -206,9 +209,14 @@ $("body").keyup(function (e) {
     }
 
 
+    $('#music')[0].pause();
     $('#sound_steps')[0].pause();
     
     $('#mario').css('background-image', "url('static/" + mario + ".gif')");
+}
+
+$("body").keyup(function (e) {
+    stopMario();
 });
 
 
@@ -216,12 +224,7 @@ $(function(){
     $('#sound_steps')[0].volume = 0.2;
 });
 
-$('body').click(function () {
-    if (!music_playing) {
-        music_playing = true;
-        $('#music')[0].play();
-    }
-});
+
 
 $('#btn_up').click(function(){
     
@@ -231,6 +234,10 @@ $('#btn_up').click(function(){
         updateMove();
     },100);
     $('#sound_steps')[0].play();
+});
+$('#btn_stop').click(function(){
+    
+    stopMario();
 });
 
 $('#btn_down').click(function(){
