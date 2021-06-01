@@ -147,6 +147,7 @@ $('#bg').css('background-image', "url('static/" + screen + "_.png')");
 function updateMove(){
 
     $('#music')[0].play();
+    $('#sound_steps')[0].play();
 
     if( move == 'up' ){
         screen++;
@@ -233,7 +234,6 @@ $('#btn_up').click(function(){
         move = 'up';
         updateMove();
     },100);
-    $('#sound_steps')[0].play();
 });
 $('#btn_stop').click(function(){
     
@@ -246,7 +246,6 @@ $('#btn_down').click(function(){
     timer = setInterval(function(){
         updateMove();
     },100);
-    $('#sound_steps')[0].play();
 });
 </script>
     
