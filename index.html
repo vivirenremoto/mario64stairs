@@ -86,8 +86,11 @@ body{
     z-index: 3;
 }
 
+.info{position:fixed;color:white;left:20px;top:20px;}
+
 @media screen and (max-width: 480px) {
 
+    .info{display:none;}
 
     .credits{color:black;}
 
@@ -103,8 +106,9 @@ body{
 <a href="https://twitter.com/vivirenremoto" target="_blank" class="credits">by @vivirenremoto</a>
 
 <a href="https://amzn.to/3fY34tp" target="_blank"
-    class="author"><b>Super Mario</b><br>Comprar juego</a>
+    class="author"><b>Super Mario</b><br>Comprar juegos</a>
 
+<div class="info">Puedes usar el teclado ↑↓ o el ratón</div>
 
 <div id="bg" style="image-rendering: pixelated;position:fixed;left:50%;top:50%;width:800px;height:568px;margin-left:-400px;margin-top:-284px;background-size:cover;"></div>
 
@@ -179,14 +183,15 @@ $("body").keydown(function (e) {
     if (e.keyCode == 38) {
         move = 'up';
         updateMove();
+        $('#sound_steps')[0].play();
 
     } else if (e.keyCode == 40) {
         move = 'down';
         updateMove();
+        $('#sound_steps')[0].play();
     }
 
 
-    $('#sound_steps')[0].play();
 });
 
 $("body").keyup(function (e) {
